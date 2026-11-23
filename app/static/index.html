@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自动翻译阅读器 · 英文书离线伴读</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23C2412D'/%3E%3Cpath d='M16 20c0-2 1.6-3.5 3.6-3.5h8.4c2.4 0 4 1.6 4 4v26.5c0-1.8-1.6-3-3.6-3H19.6c-2 0-3.6 1.3-3.6 3V20z' fill='%23FAF6EC'/%3E%3Cpath d='M48 20c0-2-1.6-3.5-3.6-3.5H36c-2.4 0-4 1.6-4 4v26.5c0-1.8 1.6-3 3.6-3h8.8c2 0 3.6 1.3 3.6 3V20z' fill='%23EFE7D4'/%3E%3Cpath d='M48 13l1.3 3.2L52.5 17.5l-3.2 1.3L48 22l-1.3-3.2-3.2-1.3 3.2-1.3L48 13z' fill='%23F7D070'/%3E%3C/svg%3E">
+<script>
+(function(){try{var t=localStorage.getItem("ar-theme");if(t==="dark"||t==="pure"||t==="sage")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ==================== 书库 ==================== -->
+<section id="view-library" class="view">
+  <header class="lib-topbar">
+    <div class="brand-lockup">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="10" fill="url(#brandGrad)"/>
+          <path d="M9.5 12.2c0-1 .8-1.7 1.8-1.7h4.9c1.3 0 2.3.9 2.3 2.2v14c0-1-.9-1.7-2-1.7h-5.2c-1 0-1.8.7-1.8 1.7V12.2z" fill="#FFFDF8"/>
+          <path d="M27.5 12.2c0-1-.8-1.7-1.8-1.7h-4.9c-1.3 0-2.3.9-2.3 2.2v14c0-1 .9-1.7 2-1.7h5.2c1 0 1.8.7 1.8 1.7V12.2z" fill="#F2E8D5"/>
+          <path d="M27 7.5l.8 1.9 1.9.8-1.9.8-.8 1.9-.8-1.9-1.9-.8 1.9-.8.8-1.9z" fill="#F8D477"/>
+          <defs>
+            <linearGradient id="brandGrad" x1="2" y1="2" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#D4533B"/>
+              <stop offset="1" stop-color="#A83220"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1 class="app-title">自动翻译阅读器</h1>
+        <span class="app-sub">英文书离线伴读工作室</span>
+      </div>
+    </div>
+
+    <div class="lib-top-right">
+      <div id="status-chips" class="chips"></div>
+      <div class="lib-quick-actions">
+        <button type="button" class="icon-btn" id="btn-lib-theme" title="切换昼夜模式" aria-label="切换昼夜模式"></button>
+        <button type="button" class="icon-btn" id="btn-lib-settings" title="阅读设置" aria-label="阅读设置">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="lib-hero">
+    <div id="continue-card" class="hero-spotlight"></div>
+
+    <div class="import-studio">
+      <div id="drop-zone" class="drop-zone">
+        <div class="drop-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <div class="drop-copy">
+          <div class="drop-title">导入本地英文书籍</div>
+          <div class="drop-sub">拖拽带文字层 PDF 或 TXT 到此，支持多选</div>
+        </div>
+        <label class="btn primary" id="btn-upload">选择文件导入<input type="file" id="file-input" accept=".pdf,.txt" multiple hidden></label>
+      </div>
+
+      <div class="studio-divider"><span>或按本机路径直连打开</span></div>
+
+      <form id="path-form" class="path-form">
+        <span class="path-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        </span>
+        <input id="path-input" type="text" placeholder="粘贴本地路径，如 D:\books\pride.pdf" autocomplete="off">
+        <button class="btn soft" type="submit">打开</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="shelf-section">
+    <div class="shelf-bar">
+      <div class="shelf-title-group">
+        <h2 class="shelf-title">我的书架</h2>
+        <span id="book-count" class="count-pill">0 本</span>
+      </div>
+      <div class="shelf-controls">
+        <div class="seg-tabs" role="tablist" aria-label="书籍类型筛选">
+          <button type="button" class="seg-tab active" data-filter="all">全部</button>
+          <button type="button" class="seg-tab" data-filter="pdf">PDF</button>
+          <button type="button" class="seg-tab" data-filter="txt">TXT</button>
+        </div>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="book-search" type="search" placeholder="搜索书名…" autocomplete="off">
+        </div>
+      </div>
+    </div>
+
+    <div id="book-grid" class="book-grid"></div>
+  </section>
+
+  <section class="lib-features" aria-label="核心伴读能力">
+    <div class="feat-card">
+      <div class="feat-ico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h6"/><path d="M9 11h4"/></svg>
+      </div>
+      <div>
+        <div class="feat-title">单击查词 · 离线词典</div>
+        <div class="feat-desc">自动还原词形变形，呈现音标、柯林斯星级、考纲标签与一键收词。</div>
+      </div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico blue">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg>
+      </div>
+      <div>
+        <div class="feat-title">双击译句 · 本地神经模型</div>
+        <div class="feat-desc">本地推理整句中文译文并自动缓存，复读零延迟，断网依然可用。</div>
+      </div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico emerald">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/><path d="M5 19l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2z"/></svg>
+      </div>
+      <div>
+        <div class="feat-title">拖选短语 · 智能伴读</div>
+        <div class="feat-desc">任意划词即译短语；开启智能模式，自动标出生词与长难句并预译。</div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ==================== 阅读器 ==================== -->
+<section id="view-reader" class="view hidden">
+  <header class="reader-top">
+    <div class="reader-left">
+      <button type="button" class="btn ghost nav-back" id="btn-back" title="返回书库">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        <span>书库</span>
+      </button>
+      <span id="reader-kind-badge" class="kind-pill">TXT</span>
+    </div>
+
+    <div class="reader-center">
+      <div class="reader-title" id="reader-title"></div>
+      <div class="reader-progress-text" id="reader-progress-text"></div>
+    </div>
+
+    <div class="reader-tools">
+      <button type="button" class="btn toggle" id="btn-smart" title="智能模式：生词下划线、长难句检测与预译">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/></svg>
+        <span>智能</span>
+        <i class="smart-dot" aria-hidden="true"></i>
+      </button>
+
+      <button type="button" class="btn ghost hard-quick hidden" id="btn-hard-quick" title="查看本页长难句">
+        <span>难句</span>
+        <span id="hard-badge" class="mini-badge">0</span>
+      </button>
+
+      <div class="tool-group" role="group" aria-label="排版与纸色">
+        <button type="button" class="btn ghost icon-compact" id="btn-font-minus" title="减小字号">A−</button>
+        <span id="font-size-badge" class="font-size-badge" title="当前正文字号">19px</span>
+        <button type="button" class="btn ghost icon-compact" id="btn-font-plus" title="增大字号">A＋</button>
+        <span class="tool-sep" aria-hidden="true"></span>
+        <div class="popover-anchor">
+          <button type="button" class="btn ghost icon-only" id="btn-paper-menu" title="切换纸色主题" aria-haspopup="true" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+          </button>
+          <div id="paper-popover" class="paper-popover hidden" role="menu">
+            <div class="popover-title">纸页氛围</div>
+            <button type="button" class="paper-opt" data-theme-opt="paper"><span class="swatch sw-paper"></span><span class="opt-name">典雅米纸</span><span class="opt-check">✓</span></button>
+            <button type="button" class="paper-opt" data-theme-opt="pure"><span class="swatch sw-pure"></span><span class="opt-name">霜白极简</span><span class="opt-check">✓</span></button>
+            <button type="button" class="paper-opt" data-theme-opt="sage"><span class="swatch sw-sage"></span><span class="opt-name">护眼松绿</span><span class="opt-check">✓</span></button>
+            <button type="button" class="paper-opt" data-theme-opt="dark"><span class="swatch sw-dark"></span><span class="opt-name">夜灯暗纸</span><span class="opt-check">✓</span></button>
+          </div>
+        </div>
+        <button type="button" class="btn ghost icon-only" id="btn-theme" title="切换昼夜模式" aria-label="切换昼夜模式"></button>
+      </div>
+
+      <button type="button" class="btn ghost with-badge" id="btn-vocab" title="打开生词本与本页难句">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span class="tool-label">生词本</span>
+        <span id="vocab-badge" class="mini-badge hidden">0</span>
+      </button>
+
+      <button type="button" class="btn ghost icon-only" id="btn-settings" title="阅读设置" aria-label="阅读设置">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+
+    <div id="reader-progress-bar" class="reader-progress-bar" aria-hidden="true">
+      <div id="reader-progress-fill" class="reader-progress-fill"></div>
+    </div>
+  </header>
+
+  <div id="model-banner" class="hidden">
+    <svg class="spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+    <span>翻译模型加载中<span class="dots">…</span></span>
+  </div>
+
+  <main id="reader-content">
+    <article id="text-article" class="hidden"></article>
+    <div id="pdf-container" class="hidden">
+      <button type="button" id="btn-pdf-edge-prev" class="pdf-edge-nav prev" title="上一页 (← / PgUp)" aria-label="上一页">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div id="pdf-page"></div>
+      <button type="button" id="btn-pdf-edge-next" class="pdf-edge-nav next" title="下一页 (→ / PgDn)" aria-label="下一页">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </main>
+
+  <footer class="reader-foot hidden" id="pdf-foot">
+    <button type="button" class="btn ghost foot-btn" id="btn-prev" title="上一页">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <span class="page-ind">第 <input id="page-jump" type="number" min="1" aria-label="跳转到页码"> / <span id="page-total">?</span> 页</span>
+    <button type="button" class="btn ghost foot-btn" id="btn-next" title="下一页">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <span class="foot-sep" aria-hidden="true"></span>
+    <div class="zoom-ctl" aria-label="页面缩放">
+      <button type="button" class="btn ghost foot-btn" id="btn-zoom-out" title="缩小页面">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <button type="button" id="pdf-zoom-val" class="zoom-val" title="点击重置为 100%">100%</button>
+      <button type="button" class="btn ghost foot-btn" id="btn-zoom-in" title="放大页面">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+    </div>
+    <span class="foot-sep hint-sep" aria-hidden="true"></span>
+    <span class="foot-hint"><kbd>单击</kbd> 查词 · <kbd>双击</kbd> 译句 · <kbd>拖选</kbd> 短语</span>
+  </footer>
+
+  <footer class="reader-foot hidden" id="text-foot">
+    <button type="button" class="btn ghost foot-btn" id="btn-chunk-prev">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <span>上一节</span>
+    </button>
+    <span class="page-ind"><span id="chunk-indicator">1 / 1</span></span>
+    <button type="button" class="btn ghost foot-btn" id="btn-chunk-next">
+      <span>下一节</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <span class="foot-sep hint-sep" aria-hidden="true"></span>
+    <span class="foot-hint"><kbd>单击</kbd> 查词 · <kbd>双击</kbd> 译句 · <kbd>拖选</kbd> 短语</span>
+  </footer>
+</section>
+
+<!-- ==================== 侧栏：生词本 / 难句 ==================== -->
+<div id="drawer-backdrop" class="drawer-backdrop hidden"></div>
+<aside id="drawer" class="hidden" aria-label="伴读侧栏">
+  <div class="drawer-head">
+    <div class="drawer-tabs" role="tablist">
+      <button type="button" class="drawer-tab active" data-tab="vocab">生词本 <span id="drawer-vocab-count" class="tab-count">0</span></button>
+      <button type="button" class="drawer-tab" data-tab="hard">本页难句 <span id="drawer-hard-count" class="tab-count">0</span></button>
+    </div>
+    <button type="button" class="icon-btn close-btn" id="btn-drawer-close" aria-label="关闭侧栏">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div id="drawer-vocab" class="drawer-body">
+    <div class="vocab-tools">
+      <div class="search-box compact">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="vocab-search" type="text" placeholder="搜索单词或释义…" autocomplete="off">
+      </div>
+      <button type="button" class="btn soft" id="btn-export" title="导出为 Anki / CSV 文件">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>导出 CSV</span>
+      </button>
+    </div>
+    <div id="vocab-list" class="vocab-list"></div>
+  </div>
+
+  <div id="drawer-hard" class="drawer-body hidden">
+    <div id="hard-summary" class="hard-summary hidden"></div>
+    <div id="hard-list" class="hard-list"></div>
+  </div>
+</aside>
+
+<!-- ==================== 弹层 ==================== -->
+<div id="popup" class="hidden" role="dialog" aria-live="polite"></div>
+<button type="button" id="sel-fab" class="hidden" title="翻译选中的短语">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/></svg>
+  <span>译短语</span>
+</button>
+
+<!-- ==================== 设置 ==================== -->
+<div id="settings-overlay" class="overlay hidden">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
+    <div class="modal-head">
+      <div>
+        <h2 id="settings-modal-title">阅读与伴读设置</h2>
+        <p class="modal-sub">精细调整生词标注灵敏度、正文字号与纸页风格</p>
+      </div>
+      <button type="button" class="icon-btn close-btn" id="btn-settings-close" aria-label="关闭设置">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="set-section">
+        <div class="set-section-title">智能伴读引擎</div>
+        <div class="set-group">
+          <label class="set-row">
+            <span>智能模式<small>开启后自动标注生词并检测长难句</small></span>
+            <span class="switch">
+              <input type="checkbox" id="set-smart">
+              <span class="switch-track"></span>
+            </span>
+          </label>
+          <label class="set-row sub" id="row-underline">
+            <span>生词加下划线<small>以朱砂虚点标记低频词汇</small></span>
+            <span class="switch">
+              <input type="checkbox" id="set-underline">
+              <span class="switch-track"></span>
+            </span>
+          </label>
+          <label class="set-row sub" id="row-auto">
+            <span>长难句自动预译<small>进入页面后后台预译难句</small></span>
+            <span class="switch">
+              <input type="checkbox" id="set-auto">
+              <span class="switch-track"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div class="set-section">
+        <div class="set-section-title">难度与阈值</div>
+        <div class="set-group">
+          <div class="set-row col-stack">
+            <div class="set-row-head">
+              <span>生词判定阈值</span>
+              <span id="set-zipf-v" class="range-pill">低于词频 3.55 的词视为生词</span>
+            </div>
+            <input type="range" id="set-zipf" min="3" max="4.2" step="0.05">
+            <div class="range-scale"><span>3.00 极少标注</span><span>3.60 均衡</span><span>4.20 广泛标注</span></div>
+          </div>
+          <div class="set-row">
+            <span>长难句词数阈值<small>达到该词数或高复杂度时判为难句</small></span>
+            <span class="num-unit">
+              <input type="number" id="set-hardlen" min="15" max="60" step="1" class="num">
+              <span>词</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-section">
+        <div class="set-section-title">排版与纸色</div>
+        <div class="set-group">
+          <div class="set-row">
+            <span>正文字号<small>适用于 TXT 流式排版模式（15–26px）</small></span>
+            <span class="num-unit">
+              <input type="number" id="set-font" min="15" max="26" step="1" class="num">
+              <span>px</span>
+            </span>
+          </div>
+          <div class="set-row col-stack">
+            <div class="set-row-head"><span>纸页主题（即时预览）</span></div>
+            <div class="theme-grid" id="settings-theme-grid">
+              <button type="button" class="theme-card" data-theme-card="paper"><span class="tc-swatch sw-paper"></span><span>典雅米纸</span></button>
+              <button type="button" class="theme-card" data-theme-card="pure"><span class="tc-swatch sw-pure"></span><span>霜白极简</span></button>
+              <button type="button" class="theme-card" data-theme-card="sage"><span class="tc-swatch sw-sage"></span><span>护眼松绿</span></button>
+              <button type="button" class="theme-card" data-theme-card="dark"><span class="tc-swatch sw-dark"></span><span>夜灯暗纸</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn" id="btn-settings-cancel">取消</button>
+      <button type="button" class="btn primary" id="btn-settings-save">保存并应用</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="hidden" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+fastapi>=0.110
+uvicorn>=0.29
+python-multipart>=0.0.9
+pymupdf>=1.24
+transformers>=4.44
+sentencepiece>=0.1.99
+sacremoses>=0.0.53
+protobuf>=4.25
+huggingface_hub>=0.23
+wordfreq>=3.0
